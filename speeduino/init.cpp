@@ -35,6 +35,7 @@
 #include "resetControl.h"
 #include "scheduler_ignition_controller.h"
 #include "maths.h"
+#include "lcd_display.h"
 
 #if defined(CORE_AVR)
 #pragma GCC push_options
@@ -189,7 +190,7 @@ void initialiseAll(void)
     //Perform all initialisations
     initialiseFuelSchedulers();
     initialiseIgnitionSchedules(configPage4.sparkMode, configPage2.nCylinders, configPage10.rotaryType);
-    //initialiseDisplay();
+    initLCD(); //Initialize LCD debug display
     initialiseIdle(true);
     initialiseFan(pinFan);
     initialiseAirCon();

@@ -14,7 +14,9 @@ The following digital pins are **not assigned** by default and can be used for c
 - **D13** (Built-in LED - technically available but visible indicator when toggled)
 - **D14-15**
 - **D21-23** 
-- **D25-33**
+- **D24** (Note: used by stepper motor if enabled)
+- **~~D25-D30~~** (**RESERVED for LCD Display** - see LCD_Display_Guide.md)
+- **D31-33**
 - **D35-37**
 - **D39**
 - **D41**
@@ -179,7 +181,8 @@ Always verify pin assignments for your specific hardware platform.
 | Range | Status | Type | Count | Best For |
 |-------|--------|------|-------|----------|
 | D21-D23 | ✅ Free | Digital | 3 | I2C, SPI devices |
-| D25-D33 | ✅ Free | Digital | 9 | Multiple outputs/inputs |
+| D25-D30 | 🟡 LCD | Digital | 6 | **LCD Display (RS, EN, D4-D7)** |
+| D31-D33 | ✅ Free | Digital | 3 | General GPIO |
 | D35-D37 | ✅ Free | Digital | 3 | General GPIO |
 | D39, D41, D53 | ✅ Free | Digital | 3 | Individual signals |
 | A9-A15 | ✅ Free | Analog | 7 | Extra sensors (pressure, temp, etc.) |
@@ -204,5 +207,6 @@ Always verify pin assignments for your specific hardware platform.
 
 - [Speeduino Wiki](https://wiki.speeduino.com)
 - [Source code: init.cpp](../speeduino/init.cpp) - Pin mapping definitions
+- [LCD Display Integration Guide](LCD_Display_Guide.md) - Details on LCD hardware setup and usage
 - [Source code: globals.cpp](../speeduino/globals.cpp) - Pin variable declarations
 - [TunerStudio configuration: speeduino.ini](./speeduino.ini) - Board layout definitions
