@@ -21,11 +21,26 @@ static LcdState currentState = LcdState::INIT;
  */
 void initLCD(void)
 {
+  // Explicitly set pin modes (belt and suspenders)
+  pinMode(LCD_RS_PIN, OUTPUT);
+  pinMode(LCD_EN_PIN, OUTPUT);
+  pinMode(LCD_D4_PIN, OUTPUT);
+  pinMode(LCD_D5_PIN, OUTPUT);
+  pinMode(LCD_D6_PIN, OUTPUT);
+  pinMode(LCD_D7_PIN, OUTPUT);
+  
+  // Small delay to let pins settle
+  delay(50);
+  
   // Initialize LCD with dimensions
   lcd.begin(LCD_COLS, LCD_ROWS);
   
   // Clear display
   lcd.clear();
+  delay(10);
+  
+  // Turn on display and backlight
+  lcd.display();
   
   // Display boot message
   lcd.setCursor(0, 0);
@@ -34,8 +49,8 @@ void initLCD(void)
   lcd.setCursor(0, 1);
   lcd.print("Booting...");
   
-  // Give user time to see boot message
-  delay(1000);
+  // Give user time to see boot message (reduced from 1000ms)
+  delay(500);
   
   // Show READY state
   currentState = LcdState::READY;

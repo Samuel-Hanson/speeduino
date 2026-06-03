@@ -10,7 +10,7 @@
 |---------|----------|------------------|-------|
 | 1 | VSS | GND | Ground |
 | 2 | VDD | 5V | Power |
-| 3 | V0 | 3.3V via pot | Contrast (10K potentiometer recommended) |
+| 3 | V0 | Contrast | See contrast options below |
 | 4 | RS | D25 | Register Select |
 | 5 | R/W | GND | Read/Write (tied to GND for write-only) |
 | 6 | E | D26 | Enable |
@@ -19,8 +19,31 @@
 | 12 | D5 | D28 | Data bit 5 |
 | 13 | D6 | D29 | Data bit 6 |
 | 14 | D7 | D30 | Data bit 7 |
-| 15 | A (LED+) | 5V via resistor | Backlight anode (220Ω resistor) |
+| 15 | A (LED+) | 5V via 220Ω resistor | Backlight anode |
 | 16 | K (LED-) | GND | Backlight cathode |
+
+### Contrast Control Options (LCD Pin 3 - V0)
+
+You have two options for setting LCD contrast:
+
+**Option A: Potentiometer (Adjustable - Recommended)**
+```
+5V → 10K Potentiometer Pin 1
+GND → 10K Potentiometer Pin 3
+LCD Pin 3 (V0) → Potentiometer Pin 2 (middle/wiper)
+```
+- Allows you to adjust contrast by turning the knob
+- Best for fine-tuning display visibility
+- 10K potentiometer is standard, but 1K-50K will work
+
+**Option B: Fixed Resistor (Simple - No Adjustment)**
+```
+LCD Pin 3 (V0) → 2KΩ Resistor → GND
+```
+- Fixed contrast setting (no adjustment)
+- **Tested value: 2KΩ provides good visibility** ✅
+- Simpler wiring if you don't have a potentiometer
+- If too dark/light, try 1KΩ (lighter) or 4.7KΩ (darker)
 
 ### Wiring Summary
 
@@ -28,10 +51,10 @@
 - All 6 pins are consecutive and fully free according to GPIO reference
 - No conflicts with existing Speeduino functions
 
-**Power:**
+**Power & Backlight:**
 - 5V and GND from Arduino Mega
-- **Important:** Use 3.3V for contrast (pin 3) for proper display visibility
-- Use 220Ω resistor in series with backlight to prevent damage
+- **Backlight:** 220Ω resistor between 5V and LCD pin 15 (LED+)
+- **Contrast:** Choose Option A (pot) or Option B (2KΩ resistor) above
 
 ---
 
@@ -126,16 +149,22 @@ Potential additions for the LCD display module:
 Use multimeter to verify:
 - 5V on LCD pin 2 (VDD)
 - 0V on LCD pins 1, 5, 16 (VSS, R/W, K)
-- ~3.3V on LCD pin 3 (V0) - adjust pot for best contrast
+- LCD pin 3 (V0) voltage:
+  - **With potentiometer:** Adjustable ~0.5V to 1.5V (turn pot for best contrast)
+  - **With 2KΩ resistor to GND:** ~0V (resistor sets fixed contrast)
 
 ---
 
 ## Troubleshooting
 
 **No display / blank screen:**
-- Check 5V power connection
-- Adjust contrast potentiometer (pin 3)
-- Verify ground connections
+- Check 5V power connection to LCD pin 2
+- **MOST COMMON:** Contrast issue on pin 3:
+  - With potentiometer: Turn it slowly in both directions
+  - With fixed resistor: Try 2KΩ to GND (tested working value)
+  - No resistor at all: Display will be blank - add 2KΩ to GND
+- Verify LCD pin 5 (R/W) is connected to GND
+- Check all ground connections
 
 **Garbled characters:**
 - Check data pin connections (D25-D30)
@@ -170,6 +199,11 @@ These pins should not be used for other functions when LCD is enabled.
 
 ## Version History
 
+- **v1.1** (2026-06-03): Documentation update
+  - Added fixed 2KΩ resistor option for contrast (tested alternative to potentiometer)
+  - Updated wiring guide with both contrast options
+  - Improved troubleshooting section
+  
 - **v1.0** (2026-06-02): Initial LCD integration with basic state display
   - Boot message support
   - READY state display
