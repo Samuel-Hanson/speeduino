@@ -38,8 +38,7 @@ void initLCD(void)
   delay(1000);
   
   // Show READY state
-  currentState = LcdState::READY;
-  updateLCD(currentState);
+  updateLCD(LcdState::READY);
 }
 
 /**
